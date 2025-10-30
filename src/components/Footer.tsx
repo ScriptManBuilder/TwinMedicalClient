@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const Footer: React.FC = () => {
                   <path fillRule="evenodd" d="M10 2L3 7v11h4v-6h6v6h4V7l-7-5z" clipRule="evenodd" />
                 </svg>
               </div>
-              <span className="text-xl font-bold">Twin Medical</span>
+              <Link to="/" className="text-xl font-bold">Twin Medical</Link>
             </div>
             <p className="text-gray-300 leading-relaxed">
               Преміальні медичні вироби та обладнання для сучасної медицини. 
@@ -77,14 +78,14 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-semibold text-white">Інформація</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Про нас
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
+                <Link to="/certificates" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Сертифікати
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
@@ -115,7 +116,7 @@ const Footer: React.FC = () => {
                 <div>
                   <p className="text-gray-300">
                     вул. Медична, 123<br />
-                    м. Київ, 01001, Україна
+                    м. Одеса, 01001, Україна
                   </p>
                 </div>
               </div>

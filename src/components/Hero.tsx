@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
   return (
@@ -20,12 +21,18 @@ const Hero: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-medical-blue hover:bg-primary-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-300 shadow-lg">
+              <Link 
+                to="/catalog" 
+                className="bg-medical-blue hover:bg-primary-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-300 shadow-lg text-center"
+              >
                 Переглянути каталог
-              </button>
-              <button className="border-2 border-medical-blue text-medical-blue hover:bg-medical-blue hover:text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300">
+              </Link>
+              <Link 
+                to="/contact" 
+                className="border-2 border-medical-blue text-medical-blue hover:bg-medical-blue hover:text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 text-center"
+              >
                 Зв'язатися з нами
-              </button>
+              </Link>
             </div>
           </div>
           

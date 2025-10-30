@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   return (
@@ -12,26 +13,26 @@ const Header: React.FC = () => {
                 <path fillRule="evenodd" d="M10 2L3 7v11h4v-6h6v6h4V7l-7-5z" clipRule="evenodd" />
               </svg>
             </div>
-            <span className="text-xl font-bold text-medical-dark">Twin Medical</span>
+            <Link to="/" className="text-xl font-bold text-medical-dark">Twin Medical</Link>
           </div>
 
           {/* Навигация */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
+            <Link to="/" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
               Головна
-            </a>
-            <a href="#" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
+            </Link>
+            <Link to="/catalog" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
               Каталог
-            </a>
-            <a href="#" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
+            </Link>
+            <Link to="/about" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
               Про компанію
-            </a>
-            <a href="#" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
+            </Link>
+            <Link to="/certificates" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
               Сертифікати
-            </a>
-            <a href="#" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
+            </Link>
+            <Link to="/contact" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-medium">
               Контакти
-            </a>
+            </Link>
           </nav>
 
           {/* Кнопка связи */}
