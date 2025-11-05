@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ContactModal from '../components/modal';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,61 @@ const Contact: React.FC = () => {
     message: '',
     category: 'general'
   });
+
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const toggleFAQ = (index: number) => {
+    setExpandedFAQ(expandedFAQ === index ? null : index);
+  };
+
+  const faqData = [
+    {
+      question: "Як швидко ви доставляєте обладнання?",
+      answer: "Стандартна доставка по Україні займає 2-5 робочих днів. Термінова доставка - 1-2 дні. Для віддалених регіонів можливе збільшення терміну на 1-2 дні.",
+      icon: (
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+          <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1V8a1 1 0 00-.293-.707L15 4.586A1 1 0 0014.414 4H14v3z" />
+        </svg>
+      ),
+      color: "bg-medical-blue"
+    },
+    {
+      question: "Чи надаєте ви гарантію та сервіс?",
+      answer: "Так, всі наші товари мають офіційну гарантію від виробника від 1 до 5 років. Додатково надаємо власну сервісну підтримку протягом всього терміну експлуатації.",
+      icon: (
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        </svg>
+      ),
+      color: "bg-green-600"
+    },
+    {
+      question: "Які умови оплати?",
+      answer: "Ми пропонуємо гнучкі умови оплати: розстрочка до 24 місяців, лізинг, оплата через банк. Також працюємо з бюджетними організаціями через тендери.",
+      icon: (
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+          <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
+        </svg>
+      ),
+      color: "bg-blue-600"
+    },
+    {
+      question: "Як отримати технічну підтримку?",
+      answer: "Наша гаряча лінія працює 24/7. Також можна звернутися через сайт, email або Telegram. Середній час відповіді - менше 15 хвилин.",
+      icon: (
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+        </svg>
+      ),
+      color: "bg-gray-600"
+    }
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -29,28 +85,29 @@ const Contact: React.FC = () => {
       isMain: true,
       address: "вул. Медична, 123",
       postalCode: "01001",
-      phone: "+38 (044) 123-45-67",
-      email: "odessa@twinmedical.ua",
+      phone1: "+38 (093) 646-39-38",
+      phone2: "+38 (068) 141-43-10",
+      email: "twinmedical.od@gmail.com",
       schedule: "Пн-Пт: 9:00-18:00"
     },
-    {
-      city: "Тест",
-      isMain: false,
-      address: "вул. Університетська, 45",
-      postalCode: "61000",
-      phone: "+38 (057) 234-56-78",
-      email: "kharkiv@twinmedical.ua",
-      schedule: "Пн-Пт: 9:00-17:00"
-    },
-    {
-      city: "Тест",
-      isMain: false,
-      address: "вул. Медикова, 78",
-      postalCode: "79000",
-      phone: "+38 (032) 345-67-89",
-      email: "lviv@twinmedical.ua",
-      schedule: "Пн-Пт: 9:00-17:00"
-    }
+    // {
+    //   city: "Тест",
+    //   isMain: false,
+    //   address: "вул. Університетська, 45",
+    //   postalCode: "61000",
+    //   phone: "+38 (057) 234-56-78",
+    //   email: "kharkiv@twinmedical.ua",
+    //   schedule: "Пн-Пт: 9:00-17:00"
+    // },
+    // {
+    //   city: "Тест",
+    //   isMain: false,
+    //   address: "вул. Медикова, 78",
+    //   postalCode: "79000",
+    //   phone: "+38 (032) 345-67-89",
+    //   email: "lviv@twinmedical.ua",
+    //   schedule: "Пн-Пт: 9:00-17:00"
+    // }
   ];
 
   const contactMethods = [
@@ -58,20 +115,21 @@ const Contact: React.FC = () => {
       icon: "📞",
       title: "Телефонуйте",
       description: "Наша гаряча лінія працює 24/7",
-      action: "+38 (044) 123-45-67",
+      action: "+38 (093) 646-39-38",
+      action1: "+38 (068) 141-43-10",
       type: "phone"
     },
     {
       icon: "✉️",
       title: "Надішліть листа",
       description: "Відповімо протягом 1 години",
-      action: "info@twinmedical.ua",
+      action: "twinmedical.od@gmail.com",
       type: "email"
     },
     {
       icon: "💬",
       title: "Онлайн-чат",
-      description: "Миттєва підтримка на сайті",
+      description: "Миттєва підтримка телеграм",
       action: "Розпочати чат",
       type: "chat"
     },
@@ -117,9 +175,52 @@ const Contact: React.FC = () => {
                 <div className="text-4xl mb-4">{method.icon}</div>
                 <h3 className="text-lg font-bold text-medical-dark mb-2">{method.title}</h3>
                 <p className="text-medical-gray text-sm mb-4">{method.description}</p>
-                <button className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300">
-                  {method.action}
-                </button>
+                
+                {method.type === 'phone' && (
+                  <div className="space-y-2">
+                    <a 
+                      href={`tel:${method.action}`}
+                      className="block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                    >
+                      {method.action}
+                    </a>
+                    <a 
+                      href={`tel:${method.action1}`}
+                      className="block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                    >
+                      {method.action1}
+                    </a>
+                  </div>
+                )}
+                
+                {method.type === 'email' && (
+                  <a 
+                    href={`mailto:${method.action}`}
+                    className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                  >
+                    {method.action}
+                  </a>
+                )}
+                
+                {method.type === 'chat' && (
+                  <a 
+                    href="https://t.me/twinmedical"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                  >
+                    Розпочати чат
+                  </a>
+                )}
+                
+                {method.type === 'meeting' && (
+                  <button 
+                    onClick={openModal}
+                    className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                  >
+                    Обрати час
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -131,91 +232,173 @@ const Contact: React.FC = () => {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Форма */}
-            <div>
-              <h2 className="text-3xl font-bold text-medical-dark mb-6">Напишіть нам</h2>
+            <div className="bg-gradient-to-br from-white to-blue-50 p-8 rounded-2xl shadow-xl border border-blue-100">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl font-bold text-medical-dark mb-2">Напишіть нам</h2>
+                <p className="text-medical-gray">Заповніть форму і ми зв'яжемося з вами протягом години</p>
+              </div>
+              
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-medical-dark font-semibold mb-2">Ім'я *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
-                      required
-                    />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="group">
+                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                      Ім'я <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
+                        placeholder="Введіть ваше ім'я"
+                        required
+                      />
+                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-medical-dark font-semibold mb-2">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-medical-dark font-semibold mb-2">Телефон</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-medical-dark font-semibold mb-2">Компанія</label>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
-                    />
+                  <div className="group">
+                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
+                        placeholder="your.email@example.com"
+                        required
+                      />
+                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                          <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-medical-dark font-semibold mb-2">Категорія запиту</label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="group">
+                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                      Телефон
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
+                        placeholder="+38 (0XX) XXX-XX-XX"
+                      />
+                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="group">
+                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                      Компанія
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
+                        placeholder="Назва організації"
+                      />
+                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group">
+                  <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                    Категорія запиту
+                  </label>
+                  <div className="relative">
+                    <select
+                      name="category"
+                      value={formData.category}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
+                    >
+                      <option value="general">🔍 Загальна інформація</option>
+                      <option value="sales">💰 Продажі</option>
+                      <option value="support">🛠️ Технічна підтримка</option>
+                      <option value="service">⚙️ Сервісне обслуговування</option>
+                      <option value="partnership">🤝 Партнерство</option>
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                      <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group">
+                  <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                    Повідомлення <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={6}
+                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400 resize-none"
+                      placeholder="Розкажіть детальніше про ваш запит..."
+                      required
+                    ></textarea>
+                    <div className="absolute bottom-4 right-4 pointer-events-none">
+                      <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-medical-blue to-primary-700 hover:from-primary-700 hover:to-medical-blue text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl active:scale-[0.98] flex items-center justify-center space-x-3"
                   >
-                    <option value="general">Загальна інформація</option>
-                    <option value="sales">Продажі</option>
-                    <option value="support">Технічна підтримка</option>
-                    <option value="service">Сервісне обслуговування</option>
-                    <option value="partnership">Партнерство</option>
-                  </select>
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                    </svg>
+                    <span>Надіслати повідомлення</span>
+                  </button>
                 </div>
-
-                <div>
-                  <label className="block text-medical-dark font-semibold mb-2">Повідомлення *</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
-                    required
-                  ></textarea>
+                
+                <div className="text-center pt-4">
+                  <p className="text-sm text-gray-500">
+                    Відправляючи форму, ви погоджуєтеся з 
+                    <a href="#" className="text-medical-blue hover:underline ml-1">політикою конфіденційності</a>
+                  </p>
                 </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-medical-blue hover:bg-primary-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300"
-                >
-                  Надіслати повідомлення
-                </button>
               </form>
             </div>
 
@@ -229,7 +412,7 @@ const Contact: React.FC = () => {
                       <h3 className="text-xl font-bold text-medical-dark">{office.city}</h3>
                       {office.isMain && (
                         <span className="bg-medical-blue text-white px-3 py-1 rounded-full text-xs font-semibold">
-                          Головний офіс
+                          Юридичний офіс
                         </span>
                       )}
                     </div>
@@ -249,8 +432,18 @@ const Contact: React.FC = () => {
                         <svg className="w-5 h-5 text-medical-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                         </svg>
-                        <p className="text-medical-dark">{office.phone}</p>
+                        <p className="text-medical-dark">{office.phone1}</p>
+                    
                       </div>
+                          <div className="flex items-center space-x-3">
+                        <svg className="w-5 h-5 text-medical-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg>
+                        <p className="text-medical-dark">{office.phone2}</p>
+                    
+                      </div>
+
+
                       
                       <div className="flex items-center space-x-3">
                         <svg className="w-5 h-5 text-medical-blue flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -276,52 +469,110 @@ const Contact: React.FC = () => {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-medical-dark mb-4">Часті питання</h2>
-            <p className="text-lg text-medical-gray max-w-2xl mx-auto">
-              Відповіді на найпоширеніші питання наших клієнтів
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-2xl mb-6">
+              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <h2 className="text-4xl font-bold text-medical-dark mb-4">Часті питання</h2>
+            <p className="text-xl text-medical-gray max-w-3xl mx-auto">
+              Відповіді на найпоширеніші питання наших клієнтів. Не знайшли відповідь? Напишіть нам!
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="font-bold text-medical-dark mb-2">Як швидко ви доставляєте обладнання?</h3>
-                <p className="text-medical-gray text-sm">Стандартна доставка по Україні займає 2-5 робочих днів. Термінова доставка - 1-2 дні.</p>
+          <div className="max-w-4xl mx-auto space-y-4">
+            {faqData.map((faq, index) => (
+              <div 
+                key={index} 
+                className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-xl"
+              >
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-300"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-12 h-12 ${faq.color} rounded-xl flex items-center justify-center text-white transform transition-transform duration-300 ${expandedFAQ === index ? 'rotate-6 scale-110' : ''}`}>
+                      {faq.icon}
+                    </div>
+                    <h3 className="text-lg font-bold text-medical-dark pr-4">
+                      {faq.question}
+                    </h3>
+                  </div>
+                  <div className={`w-8 h-8 bg-medical-blue rounded-full flex items-center justify-center transition-transform duration-300 ${expandedFAQ === index ? 'rotate-180' : ''}`}>
+                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </button>
+                
+                <div className={`transition-all duration-500 ease-in-out ${
+                  expandedFAQ === index 
+                    ? 'max-h-96 opacity-100' 
+                    : 'max-h-0 opacity-0'
+                } overflow-hidden`}>
+                  <div className="px-6 pb-6">
+                    <div className="pl-16 pr-12">
+                      <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-xl border-l-4 border-medical-blue">
+                        <p className="text-medical-gray leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="font-bold text-medical-dark mb-2">Чи надаєте ви гарантію?</h3>
-                <p className="text-medical-gray text-sm">Так, всі наші товари мають офіційну гарантію від виробника від 1 до 5 років.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="font-bold text-medical-dark mb-2">Чи можна оплатити частинами?</h3>
-                <p className="text-medical-gray text-sm">Ми пропонуємо гнучкі умови оплати, включаючи розстрочку та лізинг.</p>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="font-bold text-medical-dark mb-2">Чи надаєте ви навчання персоналу?</h3>
-                <p className="text-medical-gray text-sm">Так, ми проводимо навчання медперсоналу роботі з обладнанням у наших тренінг-центрах.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="font-bold text-medical-dark mb-2">Як отримати технічну підтримку?</h3>
-                <p className="text-medical-gray text-sm">Наша гаряча лінія працює 24/7. Також можна звернутися через сайт або email.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="font-bold text-medical-dark mb-2">Чи працюєте з державними закладами?</h3>
-                <p className="text-medical-gray text-sm">Так, ми офіційні учасники державних тендерів та працюємо з бюджетними установами.</p>
+            ))}
+          </div>
+
+          {/* Дополнительная информация */}
+          <div className="mt-16 bg-gradient-to-r from-medical-blue to-primary-700 rounded-2xl p-8 text-white text-center">
+            <div className="max-w-2xl mx-auto">
+              <h3 className="text-2xl font-bold mb-4">
+                Не знайшли відповідь на своє питання?
+              </h3>
+              <p className="text-blue-100 mb-6 text-lg">
+                Наші експерти готові допомогти вам персонально! Зв'яжіться з нами будь-яким зручним способом.
+              </p>
+              <div className="grid md:grid-cols-3 gap-4">
+                <button 
+                  onClick={openModal}
+                  className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                  <div className="text-sm font-semibold">Подзвонити</div>
+                </button>
+                <button 
+                  onClick={openModal}
+                  className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                  </svg>
+                  <div className="text-sm font-semibold">Написати</div>
+                </button>
+                <a 
+                  href="https://t.me/twinmedical"
+                  className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+                >
+                  <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                  </svg>
+                  <div className="text-sm font-semibold">Telegram</div>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Contact Modal */}
+      <ContactModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
 
 const Home: React.FC = () => {
+  // Состояние для отслеживания раскрытых карточек новостей
+  const [expandedNews, setExpandedNews] = useState<number | null>(null);
+
+  const toggleNewsCard = (index: number) => {
+    setExpandedNews(expandedNews === index ? null : index);
+  };
+
+  // Автозакрытие карточки через 10 секунд
+  useEffect(() => {
+    if (expandedNews !== null) {
+      const timer = setTimeout(() => {
+        setExpandedNews(null);
+      }, 10000); // 10 секунд
+
+      // Очищаем таймер при размонтировании или изменении expandedNews
+      return () => clearTimeout(timer);
+    }
+  }, [expandedNews]);
+
   const features = [
     {
       icon: "🏥",
@@ -31,7 +50,7 @@ const Home: React.FC = () => {
   ];
 
   const stats = [
-    { number: "500+", label: "Задоволених клієнтів" },
+    { number: "300+", label: "Задоволених клієнтів" },
     { number: "15+", label: "Років досвіду" },
     { number: "50+", label: "Міст України" },
     { number: "24/7", label: "Підтримка" }
@@ -42,43 +61,74 @@ const Home: React.FC = () => {
       name: "Др. Олена Петренко",
       position: "Головний лікар",
       hospital: "Київська міська лікарня №7",
-      text: "Twin Medical допомогли нам модернізувати діагностичне відділення. Якість обладнання на найвищому рівні, а сервісна підтримка працює бездоганно.",
+      text: "Коли мені сказали 'давайте купимо нове обладнання', я подумала: 'знову морока з налаштуваннями і поломками'. А з Twin Medical все вийшло навпаки - поставили, показали як користуватися, і працює як годинник!",
       rating: 5
     },
     {
       name: "Др. Ігор Коваленко", 
       position: "Завідувач лабораторії",
       hospital: "Медичний центр 'Добробут'",
-      text: "Вже 3 роки співпрацюємо з Twin Medical. Надійні партнери, які завжди тримають слово та надають якісну техніку в обумовлені терміни.",
+      text: "Три роки назад ризикнув і замовив у них апарат. Думав: якщо зламається - буду сам винен. А він досі працює без жодних проблем! Тепер всім колегам їх рекомендую.",
       rating: 5
     },
     {
       name: "Др. Марина Іваненко",
       position: "Стоматолог",
       hospital: "Стоматологічна клініка 'Смайл'",
-      text: "Обладнання від Twin Medical дозволило нам підняти якість лікування на новий рівень. Рекомендую всім колегам!",
+      text: "Була готова до того, що знову будуть проблеми з новим обладнанням. Але тут все навпаки - працює як годинник! А якщо щось і трапиться, хлопці приїжджають швидше швидкої допомоги.",
       rating: 5
     }
   ];
 
+  // Функция для форматирования даты на украинском
+  const formatUkrainianDate = (date: Date): string => {
+    const months = [
+      'Січня', 'Лютого', 'Березня', 'Квітня', 'Травня', 'Червня',
+      'Липня', 'Серпня', 'Вересня', 'Жовтня', 'Листопада', 'Грудня'
+    ];
+    
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month} ${year}`;
+  };
+
+  // Создаем даты относительно сегодня
+  const today = new Date();
+  const threeDaysAgo = new Date(today);
+  threeDaysAgo.setDate(today.getDate() - 3);
+  
+  const eightDaysAgo = new Date(today);
+  eightDaysAgo.setDate(today.getDate() - 8);
+  
+  const thirteenDaysAgo = new Date(today);
+  thirteenDaysAgo.setDate(today.getDate() - 13);
+
   const news = [
     {
-      date: "25 Жовтня 2025",
-      title: "Нове надходження діагностичного обладнання",
-      description: "У нашому каталозі з'явилися останні моделі УЗД апаратів від провідних європейських виробників.",
-      category: "Новини"
+      date: formatUkrainianDate(threeDaysAgo),
+      title: "Нові УЗД апарати - тепер бачимо все!",
+      description: "Прийшли нові УЗД, які показують таку картинку, що аж диво! Тепер можна роздивитися все до найменших деталей.",
+      category: "Новини",
+      fullContent: "Знаєте, коли дивишся на старі УЗД знімки - то здається, що це якесь абстрактне мистецтво. А з новими апаратами все зрозуміло навіть без лікаря! Картинка настільки чітка, що можна побачити те, що раніше тільки здогадувалися. Особливо круто для вагітних - тепер можна роздивитися кожний пальчик малюка.",
+      benefits: ["Картинка як фото", "Все видно", "Швидше ніж раніше", "Зручно для всіх"]
     },
     {
-      date: "20 Жовтня 2025", 
-      title: "Семінар з лапароскопічної хірургії",
-      description: "Twin Medical проводить безкоштовний семінар для хірургів з використання сучасного лапароскопічного обладнання.",
-      category: "Навчання"
+      date: formatUkrainianDate(eightDaysAgo), 
+      title: "Вчимося разом - приходьте на семінар!",
+      description: "Хочете побачити, як роблять складні операції через маленькі розрізики? Запрошуємо на цікавий семінар!",
+      category: "Навчання",
+      fullContent: "Уявіть: операція на животі через розріз 5 мм! Звучить неможливо? А насправді це повсякденність сучасної хірургії. На семінарі покажемо, як це працює, дамо потримати інструменти в руках. Навіть якщо ви не лікар - буде цікаво побачити, як розвивається медицина.",
+      benefits: ["Цікаво всім", "Можна потримати інструменти", "Розповімо простими словами", "Безкоштовно"]
     },
     {
-      date: "15 Жовтня 2025",
-      title: "Відкриття нового сервісного центру у Львові",
-      description: "Розширюємо мережу сервісного обслуговування - тепер ще швидша підтримка для західних регіонів України.",
-      category: "Компанія"
+      date: formatUkrainianDate(thirteenDaysAgo),
+      title: "У Львові тепер теж є наш сервіс!",
+      description: "Нарешті відкрили офіс у Львові! Тепер західна Україна теж отримає швидку допомогу з ремонтом обладнання.",
+      category: "Компанія",
+      fullContent: "Довго збиралися, довго планували, і нарешті зробили! Тепер у Львові працює наша команда, яка полагодить медичне обладнання швидше, ніж ви встигнете сказати 'допоможіть'. Хлопці досвідчені, руки золоті, і головне - завжди з гарним настроєм приїжджають.",
+      benefits: ["Швидко приїжджаємо", "Знаємо свою справу", "Запчастини завжди є", "Гарний настрій в комплекті"]
     }
   ];
 
@@ -120,9 +170,9 @@ const Home: React.FC = () => {
       <section className="py-16 bg-medical-dark text-white">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Довіра в цифрах</h2>
+            <h2 className="text-3xl font-bold mb-4">А цифри не брешуть!</h2>
             <p className="text-xl text-gray-300">
-              Результати нашої роботи говорять самі за себе
+              Ось що у нас вийшло за ці роки
             </p>
           </div>
           
@@ -145,7 +195,7 @@ const Home: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-medical-dark mb-6">
-                Чому обирають Twin Medical?
+                Чому до нас повертаються?
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
@@ -155,8 +205,8 @@ const Home: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-medical-dark mb-2">Гарантована якість</h3>
-                    <p className="text-medical-gray">Всі наші товари мають міжнародні сертифікати та офіційну гарантію від виробників.</p>
+                    <h3 className="font-bold text-medical-dark mb-2">Точно не зламається</h3>
+                    <p className="text-medical-gray">Беремо тільки перевірене обладнання з паперами. Ніяких підробок чи сумнівних речей - тільки оригінал з гарантією.</p>
                   </div>
                 </div>
                 
@@ -167,8 +217,8 @@ const Home: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-medical-dark mb-2">Повний сервіс</h3>
-                    <p className="text-medical-gray">Від консультації до навчання персоналу та технічного обслуговування - ми з вами на кожному етапі.</p>
+                    <h3 className="font-bold text-medical-dark mb-2">Робимо все самі</h3>
+                    <p className="text-medical-gray">Привеземо, поставимо, покажемо як користуватися, а потім ще й навчимо ваших лікарів. І якщо щось зламається - приїдемо полагодити.</p>
                   </div>
                 </div>
                 
@@ -179,8 +229,8 @@ const Home: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-medical-dark mb-2">Швидка доставка</h3>
-                    <p className="text-medical-gray">Доставляємо обладнання по всій Україні в найкоротші терміни з можливістю термінової доставки.</p>
+                    <h3 className="font-bold text-medical-dark mb-2">Швидко веземо</h3>
+                    <p className="text-medical-gray">Треба терміново? Не питання! Можемо доставити навіть вчора, якщо дуже потрібно. По всій Україні добираємося швидко.</p>
                   </div>
                 </div>
                 
@@ -191,34 +241,34 @@ const Home: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-medical-dark mb-2">Гнучкі умови</h3>
-                    <p className="text-medical-gray">Пропонуємо різні варіанти оплати, включаючи розстрочку та лізинг для медичних закладів.</p>
+                    <h3 className="font-bold text-medical-dark mb-2">Можна і в розстрочку</h3>
+                    <p className="text-medical-gray">Не треба відразу всю суму! Можна платити частинами, в розстрочку, або навіть в лізинг. Головне - щоб ви отримали те, що потрібно.</p>
                   </div>
                 </div>
               </div>
             </div>
             
             <div className="bg-gradient-to-br from-medical-blue to-primary-700 p-8 rounded-2xl text-white">
-              <h3 className="text-2xl font-bold mb-6">Безкоштовна консультація</h3>
+              <h3 className="text-2xl font-bold mb-6">Поговоримо по-людськи?</h3>
               <p className="text-blue-100 mb-6">
-                Наші експерти допоможуть підібрати оптимальне рішення для вашого медичного закладу
+                Не знаєте що вибрати? Зателефонуйте - розповімо все простими словами і допоможемо визначитися
               </p>
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                  <span>Аналіз потреб вашого закладу</span>
+                  <span>Дізнаємося що вам потрібно</span>
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                  <span>Підбір оптимального обладнання</span>
+                  <span>Підберемо щось підходяще</span>
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                  <span>Розрахунок вартості та ROI</span>
+                  <span>Порахуємо скільки це коштує</span>
                 </li>
                 <li className="flex items-center">
                   <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                  <span>План впровадження</span>
+                  <span>Розкажемо як все буде</span>
                 </li>
               </ul>
               <Link 
@@ -236,9 +286,9 @@ const Home: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-medical-dark mb-4">Відгуки наших клієнтів</h2>
+            <h2 className="text-3xl font-bold text-medical-dark mb-4">А що кажуть лікарі?</h2>
             <p className="text-lg text-medical-gray max-w-2xl mx-auto">
-              Довіра лікарів - найкраща оцінка нашої роботи
+              Найкращі рекомендації - від тих, хто користується щодня
             </p>
           </div>
           
@@ -269,22 +319,22 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between mb-12">
             <div>
-              <h2 className="text-3xl font-bold text-medical-dark mb-4">Новини та події</h2>
+              <h2 className="text-3xl font-bold text-medical-dark mb-4">Що у нас нового?</h2>
               <p className="text-lg text-medical-gray">
-                Будьте в курсі останніх новин медичної галузі
+                Цікаві новини з світу медицини та наших справ
               </p>
             </div>
-            <Link 
+            {/* <Link 
               to="/news" 
               className="hidden md:block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
             >
               Всі новини →
-            </Link>
+            </Link> */}
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {news.map((item, index) => (
-              <article key={index} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+              <article key={index} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs bg-medical-blue text-white px-2 py-1 rounded-full">
@@ -292,12 +342,60 @@ const Home: React.FC = () => {
                     </span>
                     <span className="text-sm text-medical-gray">{item.date}</span>
                   </div>
-                  <h3 className="text-lg font-bold text-medical-dark mb-3 hover:text-medical-blue cursor-pointer transition-colors duration-300">
+                  <h3 
+                    className="text-lg font-bold text-medical-dark mb-3 hover:text-medical-blue cursor-pointer transition-colors duration-300"
+                    onClick={() => toggleNewsCard(index)}
+                  >
                     {item.title}
                   </h3>
                   <p className="text-medical-gray text-sm mb-4">{item.description}</p>
-                  <button className="text-medical-blue hover:text-primary-700 font-semibold text-sm transition-colors duration-300">
-                    Читати далі →
+                  
+                  {/* Раскрывающийся контент */}
+                  <div className={`transition-all duration-300 overflow-hidden ${
+                    expandedNews === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}>
+                    <div className="border-t border-gray-200 pt-4 mt-4">
+                      <p className="text-medical-gray text-sm mb-4 leading-relaxed">
+                        {item.fullContent}
+                      </p>
+                      
+                      <div className="mb-4">
+                        <h4 className="font-semibold text-medical-dark mb-2 text-sm">Ключові переваги:</h4>
+                        <ul className="grid grid-cols-2 gap-1">
+                          {item.benefits.map((benefit, benefitIndex) => (
+                            <li key={benefitIndex} className="flex items-center text-xs text-medical-gray">
+                              <span className="w-1 h-1 bg-medical-blue rounded-full mr-2 flex-shrink-0"></span>
+                              {benefit}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <Link 
+                          to="/contact"
+                          className="text-xs bg-medical-blue text-white px-3 py-1.5 rounded-md hover:bg-primary-700 transition-colors duration-300"
+                        >
+                          Дізнатися більше
+                        </Link>
+                        {/* <button 
+                          onClick={() => toggleNewsCard(index)}
+                          className="text-xs text-medical-gray hover:text-medical-blue transition-colors duration-300"
+                        >
+                          Згорнути ↑
+                        </button> */}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <button 
+                    onClick={() => toggleNewsCard(index)}
+                    className="text-medical-blue hover:text-primary-700 font-semibold text-sm transition-colors duration-300 flex items-center"
+                  >
+                    {expandedNews === index ? 'Згорнути' : 'Читати далі'} 
+                    <span className={`ml-1 transition-transform duration-300 ${
+                      expandedNews === index ? 'rotate-180' : ''
+                    }`}>↓</span>
                   </button>
                 </div>
               </article>

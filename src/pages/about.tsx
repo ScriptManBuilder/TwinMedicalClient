@@ -3,7 +3,7 @@ import React from 'react';
 const About: React.FC = () => {
   const stats = [
     { number: "15+", label: "Років на ринку" },
-    { number: "500+", label: "Задоволених клієнтів" },
+    { number: "300+", label: "Задоволених клієнтів" },
     { number: "50+", label: "Міст України" },
     { number: "24/7", label: "Технічна підтримка" }
   ];
@@ -31,24 +31,42 @@ const About: React.FC = () => {
     }
   ];
 
-  const team = [
+  const workDirections = [
     {
-      name: "Текст Текстович",
-      position: "Генеральний директор",
-      experience: "20+ років в медичній галузі",
-      education: "НМУ ім. Богомольця, MBA"
+      icon: "🔬",
+      title: "Діагностична медицина",
+      description: "УЗД апарати, рентген-обладнання, МРТ, КТ, лабораторні аналізатори",
+      details: "Повний спектр діагностичного обладнання для точної постановки діагнозу"
     },
     {
-      name: "Текст Текстович",
-      position: "Технічний директор",
-      experience: "15+ років в медтехніці",
-      education: "КПІ, біомедична інженерія"
+      icon: "⚕️",
+      title: "Хірургічне обладнання",
+      description: "Ендоскопія, лапароскопія, операційні столи, хірургічні інструменти",
+      details: "Сучасні рішення для мінімально інвазивної та класичної хірургії"
     },
     {
-      name: "Текст Текстович",
-      position: "Комерційний директор",
-      experience: "12+ років продаж медобладнання",
-      education: "КНЕУ, міжнародна торгівля"
+      icon: "🧪",
+      title: "Лабораторна медицина",
+      description: "Біохімічні аналізатори, гематологічні системи, імуноферментні аналізатори",
+      details: "Високоточне обладнання для клінічних та біохімічних досліджень"
+    },
+    {
+      icon: "🏥",
+      title: "Реанімація та інтенсивна терапія",
+      description: "Апарати ШВЛ, моніторинг пацієнтів, дефібрилятори, інфузійні помпи",
+      details: "Життєво важливе обладнання для критичних станів"
+    },
+    {
+      icon: "🦷",
+      title: "Стоматологічне обладнання",
+      description: "Стоматологічні установки, рентген-апарати, ультразвукові скейлери",
+      details: "Комплексні рішення для сучасних стоматологічних клінік"
+    },
+    {
+      icon: "🔧",
+      title: "Технічний сервіс",
+      description: "Встановлення, навчання персоналу, технічне обслуговування, ремонт",
+      details: "Повний цикл супроводу від покупки до сервісного обслуговування"
     }
   ];
 
@@ -155,30 +173,47 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Команда */}
+      {/* Наші напрямки роботи */}
       <section className="py-16">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-medical-dark mb-4">Наша команда</h2>
+            <h2 className="text-3xl font-bold text-medical-dark mb-4">Наші напрямки роботи</h2>
             <p className="text-lg text-medical-gray max-w-2xl mx-auto">
-              Досвідчені професіонали, які забезпечують високий рівень сервісу та експертних рішень
+              Ми працюємо в усіх ключових напрямках медицини, забезпечуючи комплексні рішення для медичних закладів
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-300">
-                <div className="w-20 h-20 bg-gradient-to-br from-medical-blue to-primary-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl text-white font-bold">
-                    {member.name.split(' ').map(n => n[0]).join('')}
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-medical-dark mb-1">{member.name}</h3>
-                <p className="text-medical-blue font-semibold mb-2">{member.position}</p>
-                <p className="text-sm text-medical-gray mb-1">{member.experience}</p>
-                <p className="text-sm text-medical-gray">{member.education}</p>
+            {workDirections.map((direction, index) => (
+              <div key={index} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
+                <div className="text-4xl mb-4 text-center">{direction.icon}</div>
+                <h3 className="text-xl font-bold text-medical-dark mb-3 text-center">{direction.title}</h3>
+                <p className="text-sm text-medical-gray mb-3 text-center italic">{direction.details}</p>
+                <p className="text-sm text-medical-gray leading-relaxed">{direction.description}</p>
               </div>
             ))}
+          </div>
+          
+          <div className="mt-12 bg-gradient-to-r from-medical-blue to-primary-700 rounded-2xl p-8 text-white text-center">
+            <h3 className="text-2xl font-bold mb-4">Базова інформація про наші послуги</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
+              <div>
+                <div className="font-semibold mb-2">📋 Консультації</div>
+                <p>Безкоштовний підбір обладнання під ваші потреби</p>
+              </div>
+              <div>
+                <div className="font-semibold mb-2">🚚 Доставка</div>
+                <p>По всій Україні, включаючи віддалені регіони</p>
+              </div>
+              <div>
+                <div className="font-semibold mb-2">🔧 Встановлення</div>
+                <p>Професійне встановлення та налаштування</p>
+              </div>
+              <div>
+                <div className="font-semibold mb-2">🎓 Навчання</div>
+                <p>Навчання персоналу роботі з обладнанням</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
