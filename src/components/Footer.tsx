@@ -93,14 +93,14 @@ const Footer: React.FC = () => {
                 </a>
               </li> */}
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Кар'єра
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
+                <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Політика конфіденційності
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -156,12 +156,12 @@ const Footer: React.FC = () => {
               © 2025 Twin Medical. Всі права захищені.
             </p>
             <div className="flex items-center space-x-6">
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+              <Link to="/terms" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                 Умови використання
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
+              </Link>
+              {/* <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">
                 Політика cookies
-              </a>
+              </a> */}
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <span className="text-gray-400 text-sm">Система працює</span>

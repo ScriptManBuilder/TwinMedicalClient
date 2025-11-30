@@ -7,6 +7,8 @@ import About from './pages/about';
 import Catalog from './pages/catalog';
 import Contact from './pages/contact';
 import Sertificat from './pages/sertificat';
+import Terms from './pages/terms';
+import Privacy from './pages/privacy';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/certificates" element={<Sertificat />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
           </Routes>
         </main>
         <Footer />
