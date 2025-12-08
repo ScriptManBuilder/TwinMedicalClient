@@ -60,11 +60,11 @@ const Footer: React.FC = () => {
                   Хірургічні інструменти
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Технічне обслуговування
                 </a>
-              </li>
+              </li> */}
               {/* <li>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Консультації

@@ -22,20 +22,25 @@ const Header: React.FC = () => {
 
           {/* Навигация */}
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-10">
-            <Link to="/" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base">
+            <Link to="/" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Головна
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/catalog" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base">
+            <Link to="/catalog" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Каталог
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/about" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base">
+            <Link to="/about" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Про компанію
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/certificates" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base">
+            <Link to="/certificates" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Сертифікати
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/contact" className="text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base">
+            <Link to="/contact" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Контакти
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
           </nav>
 

@@ -4,45 +4,24 @@ const Catalog: React.FC = () => {
   const categories = [
     {
       id: 1,
-      title: "Діагностичне обладнання",
-      description: "Високоточні прилади для професійної діагностики",
-      image: "🔬",
-      products: ["УЗД апарати", "Рентген обладнання", "ЕКГ системи", "Лабораторні аналізатори"]
+      title: "Хірургічний одяг",
+      description: "Професійний хірургічний одяг для операційних",
+      image: "/hirurg.png",
+      products: ["Хірургічні костюми", "Операційні халати", "Шапочки та маски", "Взуття для операційних"]
     },
     {
       id: 2,
-      title: "Хірургічні інструменти",
-      description: "Преміальні інструменти для хірургічних втручань",
-      image: "⚕️",
-      products: ["Скальпелі та ножиці", "Затискачі та пінцети", "Хірургічні голки", "Електрокоагулятори"]
+      title: "Одноразове покриття",
+      description: "Стерильне одноразове покриття для медичних процедур",
+      image: "/onetimematerial.png",
+      products: ["Операційні простирадла", "Стерильні серветки", "Захисні чохли", "Операційні комплекти"]
     },
     {
       id: 3,
-      title: "Реанімаційне обладнання",
-      description: "Життєво важливе обладнання для критичних ситуацій",
-      image: "🚑",
-      products: ["Дефібрилятори", "ШВЛ апарати", "Монітори пацієнта", "Інфузійні помпи"]
-    },
-    {
-      id: 4,
-      title: "Стоматологічне обладнання",
-      description: "Сучасні рішення для стоматологічної практики",
-      image: "🦷",
-      products: ["Стоматологічні установки", "Рентген апарати", "Скейлери", "Полімеризаційні лампи"]
-    },
-    {
-      id: 5,
-      title: "Лабораторне обладнання",
-      description: "Точні інструменти для лабораторних досліджень",
-      image: "🧪",
-      products: ["Мікроскоби", "Центрифуги", "Термостати", "Спектрофотометри"]
-    },
-    {
-      id: 6,
-      title: "Витратні матеріали",
-      description: "Якісні одноразові та витратні матеріали",
-      image: "📦",
-      products: ["Шприци та голки", "Перев'язувальні матеріали", "Маски та рукавички", "Дезінфектанти"]
+      title: "Шовні матеріали",
+      description: "Високоякісні шовні матеріали для хірургії",
+      image: "/shovnimaterials.png",
+      products: ["Нерозсмоктувальні нитки", "Розсмоктувальні нитки", "Хірургічні голки", "Скоби та степлери"]
     }
   ];
 
@@ -83,25 +62,31 @@ const Catalog: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category) => (
-              <div key={category.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-                <div className="p-6">
-                  <div className="text-4xl mb-4 text-center">{category.image}</div>
+              <div key={category.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group flex flex-col">
+                <div className="h-64 overflow-hidden bg-gray-100 flex-shrink-0">
+                  <img 
+                    src={category.image} 
+                    alt={category.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-bold text-medical-dark mb-3">{category.title}</h3>
-                  <p className="text-medical-gray mb-4">{category.description}</p>
+                  <p className="text-medical-gray mb-4 flex-grow">{category.description}</p>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-2 mb-6">
                     <h4 className="font-semibold text-medical-dark text-sm">Основні продукти:</h4>
                     <ul className="text-sm text-medical-gray space-y-1">
                       {category.products.map((product, index) => (
                         <li key={index} className="flex items-center">
-                          <span className="w-1.5 h-1.5 bg-medical-blue rounded-full mr-2"></span>
+                          <span className="w-1.5 h-1.5 bg-medical-blue rounded-full mr-2 flex-shrink-0"></span>
                           {product}
                         </li>
                       ))}
                     </ul>
                   </div>
                   
-                  <button className="w-full mt-6 bg-medical-blue text-white py-2 rounded-lg hover:bg-primary-700 transition-colors duration-300">
+                  <button className="w-full mt-auto bg-medical-blue text-white py-2 rounded-lg hover:bg-primary-700 transition-colors duration-300">
                     Переглянути продукцію
                   </button>
                 </div>

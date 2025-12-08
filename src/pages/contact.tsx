@@ -204,7 +204,7 @@ const Contact: React.FC = () => {
                 
                 {method.type === 'chat' && (
                   <a 
-                    href="https://t.me/twinmedical"
+                    href="https://t.me/TwinMedicalOd"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
@@ -557,7 +557,7 @@ const Contact: React.FC = () => {
                   <div className="text-sm font-semibold">Написати</div>
                 </button>
                 <a 
-                  href="https://t.me/twinmedical"
+                  href="https://t.me/TwinMedicalOd"
                   className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
                 >
                   <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">

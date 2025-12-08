@@ -282,6 +282,62 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Партнери/Торговые марки */}
+      <section className="py-16 bg-white relative overflow-hidden">
+        {/* Декоративный фон */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-50"></div>
+        
+        <div className="container mx-auto px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12">
+            <div className="inline-block bg-medical-blue text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              Наші партнери
+            </div>
+            <h2 className="text-3xl font-bold text-medical-dark mb-4">Торгові марки, з якими ми працюємо</h2>
+            <p className="text-lg text-medical-gray max-w-2xl mx-auto">
+              Офіційні партнери провідних світових виробників медичного обладнання
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { src: "/image_2025-09-07_15-46-35-removebg-preview.png", alt: "Partner Brand 1" },
+              { src: "/image_2025-09-07_15-47-03-removebg-preview.png", alt: "Partner Brand 2" },
+              { src: "/image_2025-09-07_15-47-28-removebg-preview.png", alt: "Partner Brand 3" },
+              { src: "/images__1_-removebg-preview.png", alt: "Partner Brand 4" }
+            ].map((brand, index) => (
+              <div 
+                key={index}
+                className="group relative bg-white p-8 rounded-2xl border-2 border-gray-100 hover:border-medical-blue transition-all duration-300 hover:shadow-xl transform hover:-translate-y-2"
+              >
+                {/* Декоративный градиент при наведении */}
+                <div className="absolute inset-0 bg-gradient-to-br from-medical-blue to-primary-700 opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300"></div>
+                
+                <div className="relative flex items-center justify-center h-24">
+                  <img 
+                    src={brand.src}
+                    alt={brand.alt}
+                    className="max-h-full max-w-full w-auto h-auto object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110"
+                  />
+                </div>
+                
+                {/* Индикатор при наведении */}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-medical-blue to-primary-700 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-b-2xl"></div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Дополнительная информация */}
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center space-x-2 text-medical-gray">
+              <svg className="w-5 h-5 text-medical-blue" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm">Сертифіковані дистриб'ютори оригінальної продукції</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Отзывы */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6 lg:px-8">
@@ -314,123 +370,31 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Новости */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h2 className="text-3xl font-bold text-medical-dark mb-4">Що у нас нового?</h2>
-              <p className="text-lg text-medical-gray">
-                Цікаві новини з світу медицини та наших справ
-              </p>
-            </div>
-            {/* <Link 
-              to="/news" 
-              className="hidden md:block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
-            >
-              Всі новини →
-            </Link> */}
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {news.map((item, index) => (
-              <article key={index} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs bg-medical-blue text-white px-2 py-1 rounded-full">
-                      {item.category}
-                    </span>
-                    <span className="text-sm text-medical-gray">{item.date}</span>
-                  </div>
-                  <h3 
-                    className="text-lg font-bold text-medical-dark mb-3 hover:text-medical-blue cursor-pointer transition-colors duration-300"
-                    onClick={() => toggleNewsCard(index)}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-medical-gray text-sm mb-4">{item.description}</p>
-                  
-                  {/* Раскрывающийся контент */}
-                  <div className={`transition-all duration-300 overflow-hidden ${
-                    expandedNews === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                  }`}>
-                    <div className="border-t border-gray-200 pt-4 mt-4">
-                      <p className="text-medical-gray text-sm mb-4 leading-relaxed">
-                        {item.fullContent}
-                      </p>
-                      
-                      <div className="mb-4">
-                        <h4 className="font-semibold text-medical-dark mb-2 text-sm">Ключові переваги:</h4>
-                        <ul className="grid grid-cols-2 gap-1">
-                          {item.benefits.map((benefit, benefitIndex) => (
-                            <li key={benefitIndex} className="flex items-center text-xs text-medical-gray">
-                              <span className="w-1 h-1 bg-medical-blue rounded-full mr-2 flex-shrink-0"></span>
-                              {benefit}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                        <Link 
-                          to="/contact"
-                          className="text-xs bg-medical-blue text-white px-3 py-1.5 rounded-md hover:bg-primary-700 transition-colors duration-300"
-                        >
-                          Дізнатися більше
-                        </Link>
-                        {/* <button 
-                          onClick={() => toggleNewsCard(index)}
-                          className="text-xs text-medical-gray hover:text-medical-blue transition-colors duration-300"
-                        >
-                          Згорнути ↑
-                        </button> */}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <button 
-                    onClick={() => toggleNewsCard(index)}
-                    className="text-medical-blue hover:text-primary-700 font-semibold text-sm transition-colors duration-300 flex items-center"
-                  >
-                    {expandedNews === index ? 'Згорнути' : 'Читати далі'} 
-                    <span className={`ml-1 transition-transform duration-300 ${
-                      expandedNews === index ? 'rotate-180' : ''
-                    }`}>↓</span>
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-          
-          <div className="text-center mt-8 md:hidden">
-            <Link 
-              to="/news" 
-              className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
-            >
-              Всі новини →
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-16 bg-medical-dark text-white">
-        <div className="container mx-auto px-6 lg:px-8">
+      <section className="py-20 bg-gradient-to-br from-medical-blue via-primary-700 to-medical-dark text-white relative overflow-hidden">
+        {/* Декоративные элементы */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white opacity-5 rounded-full -ml-48 -mb-48"></div>
+        
+        <div className="container mx-auto px-6 lg:px-8 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-4">Готові розпочати співпрацю?</h2>
-            <p className="text-xl text-gray-300 mb-8">
+            <div className="inline-block bg-white bg-opacity-10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+              <span className="text-sm font-semibold">Розпочнемо співпрацю</span>
+            </div>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Готові розпочати співпрацю?</h2>
+            <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
               Зв'яжіться з нами сьогодні та отримайте персональну консультацію щодо медичного обладнання для вашого закладу
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 to="/contact"
-                className="bg-medical-blue hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-300"
+                className="bg-white text-medical-blue hover:bg-gray-100 px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
                 Зв'язатися з нами
               </Link>
               <Link 
                 to="/catalog"
-                className="border-2 border-gray-300 text-gray-300 hover:bg-gray-300 hover:text-medical-dark px-8 py-3 rounded-lg font-semibold transition-all duration-300"
+                className="border-2 border-white text-white hover:bg-white hover:text-medical-blue px-8 py-4 rounded-xl font-bold transition-all duration-300"
               >
                 Переглянути каталог
               </Link>

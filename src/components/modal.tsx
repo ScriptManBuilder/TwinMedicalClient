@@ -41,40 +41,32 @@ const ContactModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
         {/* Content */}
         <div className="p-3 sm:p-6 space-y-3 sm:space-y-4">
-          {/* Телефон */}
+          {/* Телефони */}
           <div className="group">
-            <a 
-              href="tel:+380936463938"
-              className="flex items-center p-3 sm:p-4 bg-gray-50 hover:bg-medical-blue hover:text-white rounded-lg sm:rounded-xl transition-all duration-300 group"
-            >
+            <div className="flex items-center p-3 sm:p-4 bg-gray-50 hover:bg-medical-blue rounded-lg sm:rounded-xl transition-all duration-300">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-full flex items-center justify-center mr-3 sm:mr-4 group-hover:bg-white group-hover:text-green-500 transition-all duration-300 flex-shrink-0">
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                 </svg>
               </div>
-              <div className="min-w-0">
-                <div className="font-semibold text-sm sm:text-base">Подзвонити зараз</div>
-                <div className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100">+38 (093) 646-39-38</div>
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold text-sm sm:text-base text-medical-gray group-hover:text-white mb-1">Подзвонити зараз</div>
+                <div className="flex flex-col sm:flex-row sm:gap-3 gap-1">
+                  <a 
+                    href="tel:+380936463938"
+                    className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100 hover:underline transition-colors duration-300"
+                  >
+                    +38 (093) 646-39-38
+                  </a>
+                  <a 
+                    href="tel:+380681414310"
+                    className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100 hover:underline transition-colors duration-300"
+                  >
+                    +38 (068) 141-43-10
+                  </a>
+                </div>
               </div>
-            </a>
-          </div>
-
-          {/* Другий телефон */}
-          <div className="group">
-            <a 
-              href="tel:+380681414310"
-              className="flex items-center p-3 sm:p-4 bg-gray-50 hover:bg-medical-blue hover:text-white rounded-lg sm:rounded-xl transition-all duration-300 group"
-            >
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 rounded-full flex items-center justify-center mr-3 sm:mr-4 group-hover:bg-white group-hover:text-blue-500 transition-all duration-300 flex-shrink-0">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                </svg>
-              </div>
-              <div className="min-w-0">
-                <div className="font-semibold text-sm sm:text-base">Альтернативний номер</div>
-                <div className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100">+38 (068) 141-43-10</div>
-              </div>
-            </a>
+            </div>
           </div>
 
           {/* Email */}
@@ -96,10 +88,28 @@ const ContactModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </a>
           </div>
 
+          {/* Viber */}
+          <div className="group">
+            <a 
+              href="viber://chat?number=%2B380681414310"
+              className="flex items-center p-3 sm:p-4 bg-gray-50 hover:bg-medical-blue hover:text-white rounded-lg sm:rounded-xl transition-all duration-300 group"
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-500 rounded-full flex items-center justify-center mr-3 sm:mr-4 group-hover:bg-white group-hover:text-purple-500 transition-all duration-300 flex-shrink-0">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M11.4 0C9.473.028 5.333.344 3.02 2.467 1.302 4.187.696 6.7.633 9.817.57 12.933.488 18.776 6.12 20.36h.003l-.004 2.644s-.037.977.61 1.177c.777.242 1.234-.5 1.98-1.302.407-.44.972-1.084 1.397-1.58 3.85.326 6.812-.42 7.15-.532.776-.257 5.162-.835 5.869-6.808.728-6.14-.36-10.024-3.009-11.68C17.87-.992 14.902-.08 11.4 0zm.132 1.588c3.25-.044 5.88.858 7.924 2.517 2.242 1.818 2.844 5.044 2.246 10.078-.6 5.05-4.12 5.54-4.76 5.756-.302.102-2.94.727-6.32.488 0 0-2.5 3.01-3.28 3.79-.122.124-.257.16-.357.144-.138-.022-.176-.152-.174-.34l.01-4.52c-4.86-1.33-4.55-6.11-4.5-8.65.053-2.54.543-4.57 1.936-6.05C6.43 2.372 10.18 1.63 11.53 1.59z"/>
+                </svg>
+              </div>
+              <div className="min-w-0">
+                <div className="font-semibold text-sm sm:text-base">Написати в Viber</div>
+                <div className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100">+38 (068) 141-43-10</div>
+              </div>
+            </a>
+          </div>
+
           {/* Telegram */}
           <div className="group">
             <a 
-              href="https://t.me/twinmedical"
+              href="https://t.me/TwinMedicalOd"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center p-3 sm:p-4 bg-gray-50 hover:bg-medical-blue hover:text-white rounded-lg sm:rounded-xl transition-all duration-300 group"
@@ -111,7 +121,7 @@ const ContactModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="min-w-0">
                 <div className="font-semibold text-sm sm:text-base">Написати в Telegram</div>
-                <div className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100">@twinmedical</div>
+                <div className="text-xs sm:text-sm text-gray-600 group-hover:text-blue-100">@TwinMedicalOd</div>
               </div>
             </a>
           </div>
