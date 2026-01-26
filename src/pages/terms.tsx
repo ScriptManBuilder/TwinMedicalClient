@@ -138,7 +138,7 @@ const Terms: React.FC = () => {
                   <p className="text-medical-dark mb-2"><strong>Twin Medical</strong></p>
                   <p className="text-medical-gray mb-1">Email: twinmedical.od@gmail.com</p>
                   <p className="text-medical-gray mb-1">Телефон: +38 (093) 646-39-38</p>
-                  <p className="text-medical-gray">Адреса: вул. Медична, 123, м. Одеса, 01001, Україна</p>
+                  <p className="text-medical-gray">Адреса: м. Одеса, Україна</p>
                 </div>
               </section>
             </div>
