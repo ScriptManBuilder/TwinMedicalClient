@@ -83,7 +83,7 @@ const Contact: React.FC = () => {
     {
       city: "Одеса",
       isMain: true,
-      address: "вул. Медична, 123",
+      address: " м. Одеса, Україна",
       postalCode: "01001",
       phone1: "+38 (093) 646-39-38",
       phone2: "+38 (068) 141-43-10",
@@ -424,7 +424,7 @@ const Contact: React.FC = () => {
                         </svg>
                         <div>
                           <p className="text-medical-dark">{office.address}</p>
-                          <p className="text-medical-gray text-sm">{office.city}, {office.postalCode}, Україна</p>
+                          {/* <p className="text-medical-gray text-sm">{office.city}, {office.postalCode}, Україна</p> */}
                         </div>
                       </div>
                       

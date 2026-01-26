@@ -18,8 +18,8 @@ const Footer: React.FC = () => {
               <Link to="/" className="text-xl font-bold">Twin Medical</Link>
             </div>
             <p className="text-gray-300 leading-relaxed">
-              Преміальні медичні вироби та обладнання для сучасної медицини. 
-              Якість, надійність та інновації у кожному рішенні.
+              Преміальні медичні вироби для сучасної медицини. 
+               Якість, надійність та інновації у кожному рішенні.
             </p>
             <div className="flex space-x-4">
               {/* Социальные сети */}
@@ -46,30 +46,23 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-semibold text-white">Послуги</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Медичне обладнання
-                </a>
+                <Link 
+                  to="/contact" 
+                  onClick={() => window.scrollTo(0, 0)}
+                  className="text-gray-300 hover:text-white transition-colors duration-300"
+                >
+                  Доставка по місту Одесса
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Діагностичні прилади
-                </a>
+                <Link 
+                  to="/contact" 
+                  onClick={() => window.scrollTo(0, 0)}
+                  className="text-gray-300 hover:text-white transition-colors duration-300"
+                >
+                  Доставка Новою поштою по всій Україні
+                </Link>
               </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Хірургічні інструменти
-                </a>
-              </li>
-              {/* <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Технічне обслуговування
-                </a>
-              </li> */}
-              {/* <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
-                  Консультації
-                </a>
-              </li> */}
             </ul>
           </div>
 
@@ -82,21 +75,21 @@ const Footer: React.FC = () => {
                   Про нас
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/certificates" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Сертифікати
                 </Link>
-              </li>
+              </li> */}
               {/* <li>
                 <a href="#" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Новини
                 </a>
               </li> */}
-              <li>
+              {/* <li>
                 <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Кар'єра
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors duration-300">
                   Політика конфіденційності
@@ -115,8 +108,8 @@ const Footer: React.FC = () => {
                 </svg>
                 <div>
                   <p className="text-gray-300">
-                    вул. Медична, 123<br />
-                    м. Одеса, 01001, Україна
+                    м. Одеса, Україна<br />
+                    
                   </p>
                 </div>
               </div>
@@ -153,7 +146,7 @@ const Footer: React.FC = () => {
         <div className="container mx-auto px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2025 Twin Medical. Всі права захищені.
+              © 2026 Twin Medical. Всі права захищені.
             </p>
             <div className="flex items-center space-x-6">
               <Link to="/terms" className="text-gray-400 hover:text-white text-sm transition-colors duration-300">

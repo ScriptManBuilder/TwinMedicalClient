@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from '../components/modal';
 
 const About: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const stats = [
     { number: "15+", label: "Років на ринку" },
     { number: "300+", label: "Задоволених клієнтів" },
@@ -28,45 +34,6 @@ const About: React.FC = () => {
       icon: "💎",
       title: "Професіоналізм",
       description: "Наша команда має глибокі знання в медичній галузі та багаторічний досвід роботи"
-    }
-  ];
-
-  const workDirections = [
-    {
-      icon: "🔬",
-      title: "Діагностична медицина",
-      description: "УЗД апарати, рентген-обладнання, МРТ, КТ, лабораторні аналізатори",
-      details: "Повний спектр діагностичного обладнання для точної постановки діагнозу"
-    },
-    {
-      icon: "⚕️",
-      title: "Хірургічне обладнання",
-      description: "Ендоскопія, лапароскопія, операційні столи, хірургічні інструменти",
-      details: "Сучасні рішення для мінімально інвазивної та класичної хірургії"
-    },
-    {
-      icon: "🧪",
-      title: "Лабораторна медицина",
-      description: "Біохімічні аналізатори, гематологічні системи, імуноферментні аналізатори",
-      details: "Високоточне обладнання для клінічних та біохімічних досліджень"
-    },
-    {
-      icon: "🏥",
-      title: "Реанімація та інтенсивна терапія",
-      description: "Апарати ШВЛ, моніторинг пацієнтів, дефібрилятори, інфузійні помпи",
-      details: "Життєво важливе обладнання для критичних станів"
-    },
-    {
-      icon: "🦷",
-      title: "Стоматологічне обладнання",
-      description: "Стоматологічні установки, рентген-апарати, ультразвукові скейлери",
-      details: "Комплексні рішення для сучасних стоматологічних клінік"
-    },
-    {
-      icon: "🔧",
-      title: "Технічний сервіс",
-      description: "Встановлення, навчання персоналу, технічне обслуговування, ремонт",
-      details: "Повний цикл супроводу від покупки до сервісного обслуговування"
     }
   ];
 
@@ -127,23 +94,23 @@ const About: React.FC = () => {
               </div>
             </div>
             <div className="bg-gradient-to-br from-medical-blue to-primary-700 p-8 rounded-2xl text-white">
-              <h3 className="text-2xl font-bold mb-6">Наші досягнення</h3>
+              <h3 className="text-2xl font-bold mb-6">Чим ми можемо бути корисні</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Офіційний дистриб'ютор 15+ міжнародних брендів</span>
+                  <span>Якісна медична продукція від перевірених виробників</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Сертифікація ISO 9001:2015 системи менеджменту якості</span>
+                  <span>Консультації та підбір оптимальних рішень</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Власний навчальний центр для медперсоналу</span>
+                  <span>Доставка по всій території України</span>
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-white rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span>Мережа сервісних центрів у 50+ містах України</span>
+                  <span>Підтримка та обслуговування клієнтів</span>
                 </li>
               </ul>
             </div>
@@ -173,46 +140,40 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* Наші напрямки роботи */}
+      {/* Про компанію */}
       <section className="py-16">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-medical-dark mb-4">Наші напрямки роботи</h2>
-            <p className="text-lg text-medical-gray max-w-2xl mx-auto">
-              Ми працюємо в усіх ключових напрямках медицини, забезпечуючи комплексні рішення для медичних закладів
-            </p>
-          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-medical-dark mb-4">Хто ми і що ми робимо</h2>
+            </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {workDirections.map((direction, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300">
-                <div className="text-4xl mb-4 text-center">{direction.icon}</div>
-                <h3 className="text-xl font-bold text-medical-dark mb-3 text-center">{direction.title}</h3>
-                <p className="text-sm text-medical-gray mb-3 text-center italic">{direction.details}</p>
-                <p className="text-sm text-medical-gray leading-relaxed">{direction.description}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-12 bg-gradient-to-r from-medical-blue to-primary-700 rounded-2xl p-8 text-white text-center">
-            <h3 className="text-2xl font-bold mb-4">Базова інформація про наші послуги</h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm">
-              <div>
-                <div className="font-semibold mb-2">📋 Консультації</div>
-                <p>Безкоштовний підбір обладнання під ваші потреби</p>
-              </div>
-              <div>
-                <div className="font-semibold mb-2">🚚 Доставка</div>
-                <p>По всій Україні, включаючи віддалені регіони</p>
-              </div>
-              <div>
-                <div className="font-semibold mb-2">🔧 Встановлення</div>
-                <p>Професійне встановлення та налаштування</p>
-              </div>
-              <div>
-                <div className="font-semibold mb-2">🎓 Навчання</div>
-                <p>Навчання персоналу роботі з обладнанням</p>
-              </div>
+            <div className="space-y-6 text-medical-gray leading-relaxed text-lg">
+              <p>
+                <strong className="text-medical-dark">Twin Medical</strong> — це надійний партнер у сфері постачання якісних медичних виробів та обладнання. 
+                Ми спеціалізуємося на забезпеченні медичних закладів України преміальною продукцією, 
+                яка відповідає найвищим міжнародним стандартам якості та безпеки.
+              </p>
+              
+              <p>
+                Наша компанія працює з широким асортиментом медичної продукції: від хірургічного одягу 
+                та одноразових покриттів до шовних матеріалів та спеціалізованого обладнання. 
+                Кожен продукт у нашому каталозі ретельно відібраний та сертифікований відповідно до 
+                вимог українського законодавства та європейських стандартів.
+              </p>
+
+              <p>
+                Ми не просто постачальники — ми створюємо довгострокові партнерські відносини з нашими клієнтами. 
+                Twin Medical забезпечує повний цикл обслуговування: від консультації та підбору оптимальних 
+                рішень до своєчасної доставки та післяпродажної підтримки. Наша мета — зробити співпрацю 
+                максимально комфортною та ефективною для кожного медичного закладу.
+              </p>
+
+              <p>
+                Довіряючи <strong className="text-medical-dark">Twin Medical</strong>, ви обираєте якість, надійність та професіоналізм. 
+                Ми пишаємося тим, що наша продукція допомагає українським лікарям надавати 
+                якісну медичну допомогу та рятувати життя щодня.
+              </p>
             </div>
           </div>
         </div>
@@ -226,12 +187,18 @@ const About: React.FC = () => {
             <p className="text-xl text-gray-300 mb-8">
               Зв'яжіться з нами та дізнайтеся, як Twin Medical може покращити роботу вашого медичного закладу
             </p>
-            <button className="bg-medical-blue hover:bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-300">
+            <button 
+              onClick={openModal}
+              className="bg-gradient-to-r from-medical-blue to-primary-700 hover:from-primary-700 hover:to-medical-blue text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
               Розпочати співпрацю
             </button>
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };
