@@ -34,10 +34,10 @@ const Header: React.FC = () => {
               Про компанію
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/certificates" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
+            {/* <Link to="/certificates" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Сертифікати
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </Link>
+            </Link> */}
             <Link to="/contact" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Контакти
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
