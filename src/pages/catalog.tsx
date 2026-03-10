@@ -31,7 +31,7 @@ const Catalog: React.FC = () => {
       id: 4,
       title: "Марлева продукція",
       description: "Якісна марлева продукція для медичних установ",
-      image: null,
+      image: "/marlevCatalog.jpg",
       products: ["Марлеві серветки", "Марлеві бинти", "Марлеві тампони", "Марлеві кульки"],
       link: "/catalog/marleva"
     }
