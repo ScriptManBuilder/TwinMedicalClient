@@ -9,6 +9,7 @@ import Contact from './pages/contact';
 import Sertificat from './pages/sertificat';
 import Terms from './pages/terms';
 import Privacy from './pages/privacy';
+import MarlevaProductia from './pages/marleva';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/catalog" element={<Catalog />} />
+            <Route path="/catalog/marleva" element={<MarlevaProductia />} />
             <Route path="/contact" element={<Contact />} />
             {/* <Route path="/certificates" element={<Sertificat />} /> */}
             <Route path="/terms" element={<Terms />} />

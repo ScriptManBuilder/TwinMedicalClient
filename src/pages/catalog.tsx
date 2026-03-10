@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Catalog: React.FC = () => {
   const categories = [
@@ -7,21 +8,32 @@ const Catalog: React.FC = () => {
       title: "Хірургічний одяг",
       description: "Професійний хірургічний одяг для операційних",
       image: "/hirurg.png",
-      products: ["Хірургічні костюми", "Операційні халати", "Шапочки, маски, бахіли"]
+      products: ["Хірургічні костюми", "Операційні халати", "Шапочки, маски, бахіли"],
+      link: null
     },
     {
       id: 2,
       title: "Одноразове покриття",
       description: "Стерильне одноразове покриття для медичних процедур",
       image: "/onetimematerial.png",
-      products: ["Операційні простирадла", "Стерильні серветки", "Захисні чохли", "Операційні комплекти"]
+      products: ["Операційні простирадла", "Стерильні серветки", "Захисні чохли", "Операційні комплекти"],
+      link: null
     },
     {
       id: 3,
       title: "Шовні матеріали",
       description: "Високоякісні шовні матеріали для хірургії",
       image: "/shovnimaterials.png",
-      products: ["Нерозсмоктувальні нитки", "Розсмоктувальні нитки", "Степлери", "Хірургічні обладнання"]
+      products: ["Нерозсмоктувальні нитки", "Розсмоктувальні нитки", "Степлери", "Хірургічні обладнання"],
+      link: null
+    },
+    {
+      id: 4,
+      title: "Марлева продукція",
+      description: "Якісна марлева продукція для медичних установ",
+      image: null,
+      products: ["Марлеві серветки", "Марлеві бинти", "Марлеві тампони", "Марлеві кульки"],
+      link: "/catalog/marleva"
     }
   ];
 
@@ -63,12 +75,20 @@ const Catalog: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category) => (
               <div key={category.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group flex flex-col">
-                <div className="h-64 overflow-hidden bg-gray-100 flex-shrink-0">
-                  <img 
-                    src={category.image} 
-                    alt={category.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                <div className="h-64 overflow-hidden bg-gray-100 flex-shrink-0 flex items-center justify-center">
+                  {category.image ? (
+                    <img 
+                      src={category.image} 
+                      alt={category.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-xl font-bold text-medical-dark mb-3">{category.title}</h3>
@@ -86,9 +106,18 @@ const Catalog: React.FC = () => {
                     </ul>
                   </div>
                   
-                  <button className="w-full mt-auto bg-medical-blue text-white py-2 rounded-lg hover:bg-primary-700 transition-colors duration-300">
-                    Переглянути продукцію
-                  </button>
+                  {category.link ? (
+                    <Link
+                      to={category.link}
+                      className="w-full mt-auto bg-medical-blue text-white py-2 rounded-lg hover:bg-primary-700 transition-colors duration-300 text-center block"
+                    >
+                      Переглянути продукцію
+                    </Link>
+                  ) : (
+                    <button className="w-full mt-auto bg-medical-blue text-white py-2 rounded-lg hover:bg-primary-700 transition-colors duration-300">
+                      Переглянути продукцію
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
