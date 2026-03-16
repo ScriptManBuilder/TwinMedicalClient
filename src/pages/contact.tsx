@@ -145,13 +145,13 @@ const Contact: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero секция */}
-      <section className="bg-gradient-to-r from-medical-blue to-primary-700 text-white py-20">
-        <div className="container mx-auto px-6 lg:px-8">
+      <section className="bg-gradient-to-r from-medical-blue to-primary-700 text-white py-12 sm:py-16 lg:py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
+            <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6">
               Зв'яжіться з нами
             </h1>
-            <p className="text-xl text-blue-100 mb-8">
+            <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-6 sm:mb-8">
               Готові відповісти на ваші питання та надати професійну консультацію. 
               Оберіть зручний спосіб зв'язку або відвідайте наші офіси.
             </p>
@@ -160,33 +160,33 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Способы связи */}
-      <section className="py-16">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-medical-dark mb-4">Як з нами зв'язатися</h2>
-            <p className="text-lg text-medical-gray max-w-2xl mx-auto">
+      <section className="py-10 sm:py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-medical-dark mb-3 sm:mb-4">Як з нами зв'язатися</h2>
+            <p className="text-base sm:text-lg text-medical-gray max-w-2xl mx-auto">
               Оберіть найзручніший для вас спосіб зв'язку
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-10 sm:mb-16">
             {contactMethods.map((method, index) => (
-              <div key={index} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
-                <div className="text-4xl mb-4">{method.icon}</div>
-                <h3 className="text-lg font-bold text-medical-dark mb-2">{method.title}</h3>
-                <p className="text-medical-gray text-sm mb-4">{method.description}</p>
+              <div key={index} className="bg-white p-3 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                <div className="text-2xl sm:text-4xl mb-2 sm:mb-4">{method.icon}</div>
+                <h3 className="text-sm sm:text-lg font-bold text-medical-dark mb-1 sm:mb-2">{method.title}</h3>
+                <p className="text-medical-gray text-xs sm:text-sm mb-2 sm:mb-4 hidden sm:block">{method.description}</p>
                 
                 {method.type === 'phone' && (
-                  <div className="space-y-2">
+                  <div className="space-y-1 sm:space-y-2">
                     <a 
                       href={`tel:${method.action}`}
-                      className="block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                      className="block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300 text-xs sm:text-base break-all sm:break-normal"
                     >
                       {method.action}
                     </a>
                     <a 
                       href={`tel:${method.action1}`}
-                      className="block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                      className="block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300 text-xs sm:text-base break-all sm:break-normal"
                     >
                       {method.action1}
                     </a>
@@ -196,7 +196,7 @@ const Contact: React.FC = () => {
                 {method.type === 'email' && (
                   <a 
                     href={`mailto:${method.action}`}
-                    className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                    className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300 text-xs sm:text-base break-all sm:break-normal"
                   >
                     {method.action}
                   </a>
@@ -207,7 +207,7 @@ const Contact: React.FC = () => {
                     href="https://t.me/TwinMedicalOd"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                    className="inline-block text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300 text-xs sm:text-base"
                   >
                     Розпочати чат
                   </a>
@@ -216,7 +216,7 @@ const Contact: React.FC = () => {
                 {method.type === 'meeting' && (
                   <button 
                     onClick={openModal}
-                    className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300"
+                    className="text-medical-blue hover:text-primary-700 font-semibold transition-colors duration-300 text-xs sm:text-base"
                   >
                     Обрати час
                   </button>
@@ -228,24 +228,24 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Форма и офисы */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+      <section className="py-10 sm:py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Форма */}
-            <div className="bg-gradient-to-br from-white to-blue-50 p-8 rounded-2xl shadow-xl border border-blue-100">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <div className="bg-gradient-to-br from-white to-blue-50 p-4 sm:p-6 lg:p-8 rounded-2xl shadow-xl border border-blue-100">
+              <div className="text-center mb-6 sm:mb-8">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
+                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
                 </div>
-                <h2 className="text-3xl font-bold text-medical-dark mb-2">Напишіть нам</h2>
-                <p className="text-medical-gray">Заповніть форму і ми зв'яжемося з вами протягом години</p>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-medical-dark mb-2">Напишіть нам</h2>
+                <p className="text-sm sm:text-base text-medical-gray">Заповніть форму і ми зв'яжемося з вами протягом години</p>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="group">
                     <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
                       Ім'я <span className="text-red-500">*</span>
@@ -291,7 +291,7 @@ const Contact: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="group">
                     <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
                       Телефон
@@ -404,12 +404,12 @@ const Contact: React.FC = () => {
 
             {/* Офисы */}
             <div>
-              <h2 className="text-3xl font-bold text-medical-dark mb-6">Наші офіси</h2>
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-medical-dark mb-4 sm:mb-6">Наші офіси</h2>
               <div className="space-y-6">
                 {offices.map((office, index) => (
-                  <div key={index} className={`p-6 rounded-xl border-2 ${office.isMain ? 'border-medical-blue bg-blue-50' : 'border-gray-200 bg-white'}`}>
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl font-bold text-medical-dark">{office.city}</h3>
+                  <div key={index} className={`p-4 sm:p-6 rounded-xl border-2 ${office.isMain ? 'border-medical-blue bg-blue-50' : 'border-gray-200 bg-white'}`}>
+                    <div className="flex items-center justify-between mb-3 sm:mb-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-medical-dark">{office.city}</h3>
                       {office.isMain && (
                         <span className="bg-medical-blue text-white px-3 py-1 rounded-full text-xs font-semibold">
                           Юридичний офіс
@@ -469,16 +469,16 @@ const Contact: React.FC = () => {
       </section>
 
       {/* FAQ */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div className="container mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-2xl mb-6">
-              <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+      <section className="py-10 sm:py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10 sm:mb-16">
+            <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-xl sm:rounded-2xl mb-4 sm:mb-6">
+              <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
               </svg>
             </div>
-            <h2 className="text-4xl font-bold text-medical-dark mb-4">Часті питання</h2>
-            <p className="text-xl text-medical-gray max-w-3xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-medical-dark mb-3 sm:mb-4">Часті питання</h2>
+            <p className="text-base sm:text-lg lg:text-xl text-medical-gray max-w-3xl mx-auto">
               Відповіді на найпоширеніші питання наших клієнтів. Не знайшли відповідь? Напишіть нам!
             </p>
           </div>
@@ -491,17 +491,17 @@ const Contact: React.FC = () => {
               >
                 <button
                   onClick={() => toggleFAQ(index)}
-                  className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-300"
+                  className="w-full p-4 sm:p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-300"
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className={`w-12 h-12 ${faq.color} rounded-xl flex items-center justify-center text-white transform transition-transform duration-300 ${expandedFAQ === index ? 'rotate-6 scale-110' : ''}`}>
+                  <div className="flex items-center space-x-3 sm:space-x-4 min-w-0">
+                    <div className={`w-9 h-9 sm:w-12 sm:h-12 ${faq.color} rounded-lg sm:rounded-xl flex items-center justify-center text-white transform transition-transform duration-300 flex-shrink-0 ${expandedFAQ === index ? 'rotate-6 scale-110' : ''}`}>
                       {faq.icon}
                     </div>
-                    <h3 className="text-lg font-bold text-medical-dark pr-4">
+                    <h3 className="text-sm sm:text-base lg:text-lg font-bold text-medical-dark pr-2 sm:pr-4">
                       {faq.question}
                     </h3>
                   </div>
-                  <div className={`w-8 h-8 bg-medical-blue rounded-full flex items-center justify-center transition-transform duration-300 ${expandedFAQ === index ? 'rotate-180' : ''}`}>
+                  <div className={`w-7 h-7 sm:w-8 sm:h-8 bg-medical-blue rounded-full flex items-center justify-center transition-transform duration-300 flex-shrink-0 ${expandedFAQ === index ? 'rotate-180' : ''}`}>
                     <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
@@ -513,9 +513,9 @@ const Contact: React.FC = () => {
                     ? 'max-h-96 opacity-100' 
                     : 'max-h-0 opacity-0'
                 } overflow-hidden`}>
-                  <div className="px-6 pb-6">
-                    <div className="pl-16 pr-12">
-                      <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-4 rounded-xl border-l-4 border-medical-blue">
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <div className="pl-0 sm:pl-16 pr-0 sm:pr-12">
+                      <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-3 sm:p-4 rounded-xl border-l-4 border-medical-blue">
                         <p className="text-medical-gray leading-relaxed">
                           {faq.answer}
                         </p>
@@ -528,42 +528,42 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Дополнительная информация */}
-          <div className="mt-16 bg-gradient-to-r from-medical-blue to-primary-700 rounded-2xl p-8 text-white text-center">
+          <div className="mt-10 sm:mt-16 bg-gradient-to-r from-medical-blue to-primary-700 rounded-2xl p-4 sm:p-6 lg:p-8 text-white text-center">
             <div className="max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold mb-4">
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4">
                 Не знайшли відповідь на своє питання?
               </h3>
-              <p className="text-blue-100 mb-6 text-lg">
+              <p className="text-blue-100 mb-4 sm:mb-6 text-sm sm:text-base lg:text-lg">
                 Наші експерти готові допомогти вам персонально! Зв'яжіться з нами будь-яким зручним способом.
               </p>
-              <div className="grid md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4">
                 <button 
                   onClick={openModal}
-                  className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+                  className="bg-white/20 backdrop-blur-sm rounded-xl p-2 sm:p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
                 >
                   <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                   </svg>
-                  <div className="text-sm font-semibold">Подзвонити</div>
+                  <div className="text-xs sm:text-sm font-semibold">Подзвонити</div>
                 </button>
                 <button 
                   onClick={openModal}
-                  className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+                  className="bg-white/20 backdrop-blur-sm rounded-xl p-2 sm:p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
                 >
                   <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
-                  <div className="text-sm font-semibold">Написати</div>
+                  <div className="text-xs sm:text-sm font-semibold">Написати</div>
                 </button>
                 <a 
                   href="https://t.me/TwinMedicalOd"
-                  className="bg-white/20 backdrop-blur-sm rounded-xl p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+                  className="bg-white/20 backdrop-blur-sm rounded-xl p-2 sm:p-4 hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
                 >
                   <svg className="w-6 h-6 text-white mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                   </svg>
-                  <div className="text-sm font-semibold">Telegram</div>
+                  <div className="text-xs sm:text-sm font-semibold">Telegram</div>
                 </a>
               </div>
             </div>

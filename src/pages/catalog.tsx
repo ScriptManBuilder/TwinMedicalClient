@@ -17,7 +17,7 @@ const Catalog: React.FC = () => {
       description: "Стерильне одноразове покриття для медичних процедур",
       image: "/onetimematerial.png",
       products: ["Операційні простирадла", "Стерильні серветки", "Захисні чохли", "Операційні комплекти"],
-      link: null
+      link: "/catalog/pokryttia"
     },
     {
       id: 3,
@@ -25,7 +25,7 @@ const Catalog: React.FC = () => {
       description: "Високоякісні шовні матеріали для хірургії",
       image: "/shovnimaterials.png",
       products: ["Нерозсмоктувальні нитки", "Розсмоктувальні нитки", "Степлери", "Хірургічні обладнання"],
-      link: null
+      link: "/catalog/shovni"
     },
     {
       id: 4,

@@ -4,9 +4,12 @@ import ContactModal from './modal';
 
 const Header: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
   return (
     <header className="bg-white border-b border-gray-200 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,15 +61,37 @@ const Header: React.FC = () => {
             </button>
             
             {/* Мобильное меню */}
-            <button className="md:hidden w-6 h-6 flex flex-col justify-center items-center">
-              <span className="w-5 h-0.5 bg-medical-gray mb-1"></span>
-              <span className="w-5 h-0.5 bg-medical-gray mb-1"></span>
-              <span className="w-5 h-0.5 bg-medical-gray"></span>
+            <button 
+              onClick={toggleMobileMenu}
+              className="lg:hidden w-8 h-8 flex flex-col justify-center items-center relative z-50"
+              aria-label="Меню"
+            >
+              <span className={`w-5 h-0.5 bg-medical-gray transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[3px]' : 'mb-1'}`}></span>
+              <span className={`w-5 h-0.5 bg-medical-gray transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'mb-1'}`}></span>
+              <span className={`w-5 h-0.5 bg-medical-gray transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[3px]' : ''}`}></span>
             </button>
           </div>
         </div>
       </div>
       
+      {/* Мобильная навигация */}
+      <div className={`lg:hidden transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-96 border-t border-gray-200' : 'max-h-0'}`}>
+        <nav className="container mx-auto px-4 sm:px-6 py-4 flex flex-col space-y-1 bg-white">
+          <Link to="/" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+            Головна
+          </Link>
+          <Link to="/catalog" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+            Каталог
+          </Link>
+          <Link to="/about" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+            Про компанію
+          </Link>
+          <Link to="/contact" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+            Контакти
+          </Link>
+        </nav>
+      </div>
+
       {/* Modal */}
       <ContactModal isOpen={isModalOpen} onClose={closeModal} />
     </header>
