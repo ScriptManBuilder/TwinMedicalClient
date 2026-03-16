@@ -12,6 +12,7 @@ import Privacy from './pages/privacy';
 import MarlevaProductia from './pages/marleva';
 import PokryttiaPage from './pages/pokryttia';
 import ShovniPage from './pages/shovni';
+import OdyagPage from './pages/odyag';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/catalog/marleva" element={<MarlevaProductia />} />
             <Route path="/catalog/pokryttia" element={<PokryttiaPage />} />
             <Route path="/catalog/shovni" element={<ShovniPage />} />
+            <Route path="/catalog/odyag" element={<OdyagPage />} />
             <Route path="/contact" element={<Contact />} />
             {/* <Route path="/certificates" element={<Sertificat />} /> */}
             <Route path="/terms" element={<Terms />} />
