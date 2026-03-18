@@ -13,10 +13,12 @@ import MarlevaProductia from './pages/marleva';
 import PokryttiaPage from './pages/pokryttia';
 import ShovniPage from './pages/shovni';
 import OdyagPage from './pages/odyag';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <Header />
         <main>

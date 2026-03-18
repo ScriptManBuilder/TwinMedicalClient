@@ -25,23 +25,23 @@ const Header: React.FC = () => {
 
           {/* Навигация */}
           <nav className="hidden lg:flex items-center space-x-6 xl:space-x-10">
-            <Link to="/" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
+            <Link to="/" onClick={() => window.scrollTo(0, 0)} className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Головна
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/catalog" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
+            <Link to="/catalog" onClick={() => window.scrollTo(0, 0)} className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Каталог
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            <Link to="/about" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
+            <Link to="/about" onClick={() => window.scrollTo(0, 0)} className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Про компанію
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
-            {/* <Link to="/certificates" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
+            {/* <Link to="/certificates" onClick={() => window.scrollTo(0, 0)} className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Сертифікати
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link> */}
-            <Link to="/contact" className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
+            <Link to="/contact" onClick={() => window.scrollTo(0, 0)} className="relative text-medical-gray hover:text-medical-blue transition-colors duration-300 font-semibold text-base group py-2">
               Контакти
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-medical-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </Link>
@@ -77,16 +77,16 @@ const Header: React.FC = () => {
       {/* Мобильная навигация */}
       <div className={`lg:hidden transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-96 border-t border-gray-200' : 'max-h-0'}`}>
         <nav className="container mx-auto px-4 sm:px-6 py-4 flex flex-col space-y-1 bg-white">
-          <Link to="/" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+          <Link to="/" onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
             Головна
           </Link>
-          <Link to="/catalog" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+          <Link to="/catalog" onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
             Каталог
           </Link>
-          <Link to="/about" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+          <Link to="/about" onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
             Про компанію
           </Link>
-          <Link to="/contact" onClick={closeMobileMenu} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
+          <Link to="/contact" onClick={() => { closeMobileMenu(); window.scrollTo(0, 0); }} className="text-medical-gray hover:text-medical-blue hover:bg-blue-50 transition-colors duration-200 font-semibold text-base py-3 px-4 rounded-lg">
             Контакти
           </Link>
         </nav>
