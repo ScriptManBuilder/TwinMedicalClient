@@ -11,8 +11,22 @@ const Contact: React.FC = () => {
     category: 'general'
   });
 
+  // ─── Ліміти полів — змінюй тут ───────────────────────────────────────────
+  const LIMITS = {
+    name:    { max: 60 },   // макс. символів у полі «Ім'я»
+    email:   { max: 100 },  // макс. символів у полі «Email»
+    phone:   { min: 7, max: 15 }, // мін/макс цифр у телефоні
+    company: { max: 80 },   // макс. символів у полі «Компанія»
+    message: { max: 1000 }, // макс. символів у полі «Повідомлення»
+  };
+  // ─────────────────────────────────────────────────────────────────────────
+
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -66,17 +80,123 @@ const Contact: React.FC = () => {
     }
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const validate = (data: typeof formData) => {
+    const errors: Record<string, string> = {};
+
+    if (!data.name.trim()) {
+      errors.name = "Ім'я обов'язкове";
+    } else if (data.name.length > LIMITS.name.max) {
+      errors.name = `Максимум ${LIMITS.name.max} символів`;
+    }
+
+    if (!data.email.trim()) {
+      errors.email = 'Email обов\'язковий';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      errors.email = 'Невірний формат email';
+    } else if (data.email.length > LIMITS.email.max) {
+      errors.email = `Максимум ${LIMITS.email.max} символів`;
+    }
+
+    if (data.phone) {
+      const digits = data.phone.replace(/\D/g, '');
+      if (digits.length < LIMITS.phone.min) {
+        errors.phone = `Мінімум ${LIMITS.phone.min} цифр у номері`;
+      } else if (digits.length > LIMITS.phone.max) {
+        errors.phone = `Максимум ${LIMITS.phone.max} цифр у номері`;
+      }
+    }
+
+    if (data.company && data.company.length > LIMITS.company.max) {
+      errors.company = `Максимум ${LIMITS.company.max} символів`;
+    }
+
+    if (!data.message.trim()) {
+      errors.message = 'Повідомлення обов\'язкове';
+    } else if (data.message.length > LIMITS.message.max) {
+      errors.message = `Максимум ${LIMITS.message.max} символів`;
+    }
+
+    return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    let value = e.target.value;
+    if (e.target.name === 'phone') {
+      value = value.replace(/\D/g, '');
+    }
+    const updated = { ...formData, [e.target.name]: value };
+    setFormData(updated);
+    // Знімаємо помилку поля як тільки юзер починає виправляти
+    if (fieldErrors[e.target.name]) {
+      setFieldErrors(prev => { const n = { ...prev }; delete n[e.target.name]; return n; });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Здесь будет логика отправки формы
+
+    const errors = validate(formData);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const token = process.env.REACT_APP_TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.REACT_APP_TELEGRAM_CHAT_ID;
+
+    if (!token || !chatId) {
+      setSubmitError('Помилка конфігурації. Зверніться до адміністратора.');
+      setIsSubmitting(false);
+      return;
+    }
+
+    const categoryLabels: Record<string, string> = {
+      general: 'Загальна інформація',
+      sales: 'Продажі',
+      support: 'Технічна підтримка',
+      service: 'Сервісне обслуговування',
+      partnership: 'Партнерство',
+    };
+
+    const text =
+      `📬 *Нова заявка з сайту Twin Medical*\n\n` +
+      `👤 *Ім'я:* ${formData.name}\n` +
+      `📧 *Email:* ${formData.email}\n` +
+      `📞 *Телефон:* ${formData.phone || '—'}\n` +
+      `🏢 *Компанія:* ${formData.company || '—'}\n` +
+      `📂 *Категорія:* ${categoryLabels[formData.category] ?? formData.category}\n\n` +
+      `💬 *Повідомлення:*\n${formData.message}`;
+
+    try {
+      const response = await fetch(
+        `https://api.telegram.org/bot${token}/sendMessage`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text,
+            parse_mode: 'Markdown',
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.description || 'Telegram API error');
+      }
+
+      setSubmitSuccess(true);
+      setFormData({ name: '', email: '', phone: '', company: '', message: '', category: 'general' });
+    } catch (err) {
+      setSubmitError('Не вдалося відправити повідомлення. Спробуйте ще раз або зв\'яжіться з нами за телефоном.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const offices = [
@@ -232,22 +352,23 @@ const Contact: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Форма */}
-            <div className="bg-gradient-to-br from-white to-blue-50 p-4 sm:p-6 lg:p-8 rounded-2xl shadow-xl border border-blue-100">
-              <div className="text-center mb-6 sm:mb-8">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center">
-                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <div className="bg-gradient-to-br from-white to-blue-50 p-3 sm:p-6 lg:p-8 rounded-2xl shadow-xl border border-blue-100">
+              <div className="text-center mb-4 sm:mb-8">
+                <div className="w-10 h-10 sm:w-16 sm:h-16 bg-gradient-to-br from-medical-blue to-primary-700 rounded-full mx-auto mb-2 sm:mb-4 flex items-center justify-center">
+                  <svg className="w-5 h-5 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                   </svg>
                 </div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-medical-dark mb-2">Напишіть нам</h2>
-                <p className="text-sm sm:text-base text-medical-gray">Заповніть форму і ми зв'яжемося з вами протягом години</p>
+                <h2 className="text-lg sm:text-2xl lg:text-3xl font-bold text-medical-dark mb-1 sm:mb-2">Напишіть нам</h2>
+                <p className="text-xs sm:text-base text-medical-gray">Заповніть форму і ми зв'яжемося з вами протягом години</p>
               </div>
               
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
+                {/* Ім'я + Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                   <div className="group">
-                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                    <label className="block text-medical-dark font-semibold mb-1.5 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
                       Ім'я <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -256,19 +377,20 @@ const Contact: React.FC = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
-                        placeholder="Введіть ваше ім'я"
-                        required
+                        maxLength={LIMITS.name.max}
+                        className={`w-full pl-3 pr-9 py-3 sm:px-4 sm:py-4 text-sm sm:text-base border-2 rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm placeholder-gray-400 ${fieldErrors.name ? 'border-red-400' : 'border-gray-200'}`}
+                        placeholder="Ваше ім'я"
                       />
-                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                         </svg>
                       </div>
                     </div>
+                    {fieldErrors.name && <p className="mt-1 text-xs text-red-500">{fieldErrors.name}</p>}
                   </div>
                   <div className="group">
-                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                    <label className="block text-medical-dark font-semibold mb-1.5 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
                       Email <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -277,23 +399,25 @@ const Contact: React.FC = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
-                        placeholder="your.email@example.com"
-                        required
+                        maxLength={LIMITS.email.max}
+                        className={`w-full pl-3 pr-9 py-3 sm:px-4 sm:py-4 text-sm sm:text-base border-2 rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm placeholder-gray-400 ${fieldErrors.email ? 'border-red-400' : 'border-gray-200'}`}
+                        placeholder="email@example.com"
                       />
-                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                           <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                         </svg>
                       </div>
                     </div>
+                    {fieldErrors.email && <p className="mt-1 text-xs text-red-500">{fieldErrors.email}</p>}
                   </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                {/* Телефон + Компанія */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-6">
                   <div className="group">
-                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                    <label className="block text-medical-dark font-semibold mb-1.5 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
                       Телефон
                     </label>
                     <div className="relative">
@@ -302,18 +426,20 @@ const Contact: React.FC = () => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
-                        placeholder="+38 (0XX) XXX-XX-XX"
+                        inputMode="numeric"
+                        className={`w-full pl-3 pr-9 py-3 sm:px-4 sm:py-4 text-sm sm:text-base border-2 rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm placeholder-gray-400 ${fieldErrors.phone ? 'border-red-400' : 'border-gray-200'}`}
+                        placeholder="380XXXXXXXXX"
                       />
-                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                         </svg>
                       </div>
                     </div>
+                    {fieldErrors.phone && <p className="mt-1 text-xs text-red-500">{fieldErrors.phone}</p>}
                   </div>
                   <div className="group">
-                    <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                    <label className="block text-medical-dark font-semibold mb-1.5 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
                       Компанія
                     </label>
                     <div className="relative">
@@ -322,20 +448,23 @@ const Contact: React.FC = () => {
                         name="company"
                         value={formData.company}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
+                        maxLength={LIMITS.company.max}
+                        className={`w-full pl-3 pr-9 py-3 sm:px-4 sm:py-4 text-sm sm:text-base border-2 rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm placeholder-gray-400 ${fieldErrors.company ? 'border-red-400' : 'border-gray-200'}`}
                         placeholder="Назва організації"
                       />
-                      <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
+                      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 110-2V4zm3 1h2v2H7V5zm2 4H7v2h2V9zm2-4h2v2h-2V5zm2 4h-2v2h2V9z" clipRule="evenodd" />
                         </svg>
                       </div>
                     </div>
+                    {fieldErrors.company && <p className="mt-1 text-xs text-red-500">{fieldErrors.company}</p>}
                   </div>
                 </div>
 
+                {/* Категорія */}
                 <div className="group">
-                  <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                  <label className="block text-medical-dark font-semibold mb-1.5 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
                     Категорія запиту
                   </label>
                   <div className="relative">
@@ -343,7 +472,7 @@ const Contact: React.FC = () => {
                       name="category"
                       value={formData.category}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
+                      className="w-full pl-3 pr-8 py-3 sm:px-4 sm:py-4 text-sm sm:text-base border-2 border-gray-200 rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm appearance-none cursor-pointer"
                     >
                       <option value="general">🔍 Загальна інформація</option>
                       <option value="sales">💰 Продажі</option>
@@ -351,52 +480,83 @@ const Contact: React.FC = () => {
                       <option value="service">⚙️ Сервісне обслуговування</option>
                       <option value="partnership">🤝 Партнерство</option>
                     </select>
-                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
                     </div>
                   </div>
                 </div>
 
+                {/* Повідомлення */}
                 <div className="group">
-                  <label className="block text-medical-dark font-semibold mb-3 text-sm uppercase tracking-wide">
+                  <label className="block text-medical-dark font-semibold mb-1.5 sm:mb-3 text-xs sm:text-sm uppercase tracking-wide">
                     Повідомлення <span className="text-red-500">*</span>
                   </label>
-                  <div className="relative">
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      rows={6}
-                      className="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm hover:shadow-md placeholder-gray-400 resize-none"
-                      placeholder="Розкажіть детальніше про ваш запит..."
-                      required
-                    ></textarea>
-                    <div className="absolute bottom-4 right-4 pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-300 group-focus-within:text-medical-blue transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
-                      </svg>
-                    </div>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    rows={5}
+                    maxLength={LIMITS.message.max}
+                    className={`w-full px-3 py-3 sm:px-4 sm:py-4 text-sm sm:text-base border-2 rounded-xl focus:ring-2 sm:focus:ring-4 focus:ring-medical-blue/20 focus:border-medical-blue transition-all duration-300 bg-white shadow-sm placeholder-gray-400 resize-none ${fieldErrors.message ? 'border-red-400' : 'border-gray-200'}`}
+                    placeholder="Розкажіть детальніше про ваш запит..."
+                  />
+                  <div className="flex justify-between mt-1">
+                    {fieldErrors.message
+                      ? <p className="text-xs text-red-500">{fieldErrors.message}</p>
+                      : <span />}
+                    <p className="text-xs text-gray-400 ml-auto">{formData.message.length}/{LIMITS.message.max}</p>
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-1 sm:pt-4">
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-medical-blue to-primary-700 hover:from-primary-700 hover:to-medical-blue text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl active:scale-[0.98] flex items-center justify-center space-x-3"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-medical-blue to-primary-700 hover:from-primary-700 hover:to-medical-blue text-white py-3 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl active:scale-[0.98] flex items-center justify-center space-x-2 sm:space-x-3 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                    </svg>
-                    <span>Надіслати повідомлення</span>
+                    {isSubmitting ? (
+                      <>
+                        <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                        </svg>
+                        <span>Відправляємо...</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                        <span>Надіслати повідомлення</span>
+                      </>
+                    )}
                   </button>
                 </div>
+
+                {submitSuccess && (
+                  <div className="p-3 sm:p-4 bg-green-50 border border-green-200 rounded-xl flex items-start space-x-2 sm:space-x-3">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <p className="text-green-700 font-medium text-sm sm:text-base">Дякуємо! Повідомлення відправлено. Зв'яжемося найближчим часом.</p>
+                  </div>
+                )}
+
+                {submitError && (
+                  <div className="p-3 sm:p-4 bg-red-50 border border-red-200 rounded-xl flex items-start space-x-2 sm:space-x-3">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                    <p className="text-red-700 font-medium text-sm sm:text-base">{submitError}</p>
+                  </div>
+                )}
                 
-                <div className="text-center pt-4">
-                  <p className="text-sm text-gray-500">
+                <div className="text-center pt-1 sm:pt-4">
+                  <p className="text-xs sm:text-sm text-gray-500">
                     Відправляючи форму, ви погоджуєтеся з 
-                    <a href="#" className="text-medical-blue hover:underline ml-1">політикою конфіденційності</a>
+                    <a href="/privacy" className="text-medical-blue hover:underline ml-1">політикою конфіденційності</a>
                   </p>
                 </div>
               </form>
