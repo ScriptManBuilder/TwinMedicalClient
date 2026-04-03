@@ -51,19 +51,25 @@ const Catalog: React.FC = () => {
               Гарантована якість, міжнародні сертифікати, повний сервісний супровід.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-medical-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
-                Завантажити каталог PDF
+              <button
+                onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-white text-medical-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300"
+              >
+                Переглянути продукцію
               </button>
-              <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-medical-blue transition-all duration-300">
+              <Link
+                to="/contact"
+                className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-medical-blue transition-all duration-300 text-center"
+              >
                 Консультація спеціаліста
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Категории товаров */}
-      <section className="py-16">
+      <section id="categories" className="py-16">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-medical-dark mb-4">Категорії продукції</h2>
